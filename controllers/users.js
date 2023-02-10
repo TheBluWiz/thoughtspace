@@ -1,20 +1,26 @@
-// const User = require('../models/User');
+const { User } = require('../models')
 
 module.exports = {
-  getUsers(data) {
-    return { message: "Here is the user data" }
+  async getUsers(data) {
+    const users = await User.find()
+    return { users }
   },
   getUser(data) {
     return { message: "Here is a single user" }
   },
-  createUser(data) {
-    return { 
-      status: "User Created",
-      newUser: {
-        username: data.username,
-        email: data.email,
-      }
+  async createUser(data) {
+    try {
+      console.log('Creating New User');
+      const newUser = await User.create(data)
+      console.log(`\nNew User:\n${newUser}`)
+      return newUser
     }
+    catch (err) {
+      console.log(err);
+      return err;
+    }
+
+    return { newUser }
   },
   updateUser(data) {
     return { message: "Updated User"}

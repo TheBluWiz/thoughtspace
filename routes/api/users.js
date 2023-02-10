@@ -11,10 +11,10 @@ const {
 } = require('../../controllers/users.js');
 
 router.route('/')
-.get((req, res) => res.status(200).json(getUsers()))
-.post((req, res) => res.status(200).json(createUser(req.body)))
-.put((req, res) => res.status(200).json(updateUser(req.body)))
-.delete((req, res) => res.status(200).json(deleteUser(req.body)))
+.get(async (req, res) => res.status(200).json(await getUsers()))
+.post(async (req, res) => res.status(200).send(await createUser(req.body)))
+.put(async (req, res) => res.status(200).json(await updateUser(req.body)))
+.delete(async (req, res) => res.status(200).json(await deleteUser(req.body)))
 
 router.route('/:id')
 .get((req, res) => res.status(200).json(getUser(req.params.id)))
