@@ -12,7 +12,7 @@ const {
 
 router.route('/')
 .get(async (req, res) => res.status(200).json(await getUsers()))
-.post(async (req, res) => res.status(200).send(await createUser(req.body)))
+.post(async (req, res) => res.status(200).json(await createUser(req.body)))
 .put(async (req, res) => res.status(200).json(await updateUser(req.body)))
 .delete(async (req, res) => res.status(200).json(await deleteUser(req.body._id)))
 
@@ -20,19 +20,19 @@ router.route('/:id')
 .get(async (req, res) => res.status(200).json(await getUser(req.params.id)))
 
 router.route('/:userId/friends/:friendId')
-.post((req, res) => {
+.post(async (req, res) => {
   data = {
     userId: req.params.userId,
     friendId: req.params.friendId
   }
-  return res.status(200).json(addFriend(data))
+  return res.status(200).json(await addFriend(data))
 })
-.delete((req, res) => {
+.delete(async (req, res) => {
   data = {
     userId: req.params.userId,
     friendId: req.params.friendId
   }
-  return res.status(200).json(removeFriend(data))
+  return res.status(200).json(await removeFriend(data))
 })
 
 module.exports = router;

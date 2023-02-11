@@ -47,10 +47,32 @@ module.exports = {
       return err;
     }
   },
-  addFriend(data) {
-    return { message: `${data.userId} has befriended ${data.friendId}`}
+  async addFriend(data) {
+    try {
+      const user = await User.findById({ _id: data.userId })
+      user.friends.push({ _id: data.friendId})
+      updatedUser = await user.save()
+      return updatedUser;
+    }
+    catch (err) {
+      console.log(err)
+      return err
+    }
   },
-  removeFriend(data) {
-    return { message: `${data.userId} is no longer friends with ${data.friendId}`}
+  async removeFriend(data) {
+   try {
+    console.log(`\n\nRemoving Friend..\n`)
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: data.userId },
+      { $pull: { friends: { user: data.friendId}}},
+      { new: true }
+    )
+    console.log(`\n\nUpdated User\n${updatedUser}`)
+    return updatedUser;
+   }
+   catch (err) {
+    console.log(err)
+    return err;
+   }
   }
 };
