@@ -14,10 +14,10 @@ router.route('/')
 .get(async (req, res) => res.status(200).json(await getUsers()))
 .post(async (req, res) => res.status(200).send(await createUser(req.body)))
 .put(async (req, res) => res.status(200).json(await updateUser(req.body)))
-.delete(async (req, res) => res.status(200).json(await deleteUser(req.body)))
+.delete(async (req, res) => res.status(200).json(await deleteUser(req.body._id)))
 
 router.route('/:id')
-.get((req, res) => res.status(200).json(getUser(req.params.id)))
+.get(async (req, res) => res.status(200).json(await getUser(req.params.id)))
 
 router.route('/:userId/friends/:friendId')
 .post((req, res) => {

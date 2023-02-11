@@ -1,32 +1,51 @@
-const { User } = require('../models')
+const { User } = require('../models');
+const { findOneAndDelete } = require('../models/Thought');
 
 module.exports = {
   async getUsers(data) {
     const users = await User.find()
-    return { users }
+    return users
   },
-  getUser(data) {
-    return { message: "Here is a single user" }
+  async getUser(data) {
+    try {
+      const user = await User.findOne({ _id: data})
+      if (!user) return { message: "No user found"};
+      return user;
+    }
+    catch (err) {
+      console.log(err);
+      return err;
+    } 
   },
   async createUser(data) {
     try {
-      console.log('Creating New User');
       const newUser = await User.create(data)
-      console.log(`\nNew User:\n${newUser}`)
       return newUser
     }
     catch (err) {
       console.log(err);
       return err;
     }
-
-    return { newUser }
   },
-  updateUser(data) {
-    return { message: "Updated User"}
+  async updateUser(data) {
+    try {
+      updatedUser = await User.findByIdAndUpdate({_id: data._id}, data, { new: true })
+      return updatedUser
+    }
+    catch (err) {
+      console.log(err)
+      return err;
+    }
   },
-  deleteUser(data) {
-    return { message: "User Deleted"}
+  async deleteUser(data) {
+    try {
+      result = await User.findByIdAndDelete({ _id: data })
+      return result
+    }
+    catch (err) {
+      console.log(err);
+      return err;
+    }
   },
   addFriend(data) {
     return { message: `${data.userId} has befriended ${data.friendId}`}
