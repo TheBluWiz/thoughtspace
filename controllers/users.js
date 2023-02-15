@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 const { findOneAndDelete } = require('../models/Thought');
 
 module.exports = {
@@ -40,6 +40,9 @@ module.exports = {
   async deleteUser(data) {
     try {
       result = await User.findByIdAndDelete({ _id: data })
+      await Thought.deleteMany(
+        {username: result.username}
+      );
       return result
     }
     catch (err) {
