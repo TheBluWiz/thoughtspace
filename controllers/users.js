@@ -65,13 +65,11 @@ module.exports = {
   // This isn't working
   async removeFriend(data) {
    try {
-    console.log(`\n\nRemoving Friend..\n`)
     const updatedUser = await User.findOneAndUpdate(
       { _id: data.userId },
-      { $pull: { friends: { user: data.friendId}}},
+      { $pull: { friends: data.friendId}},
       { new: true }
     )
-    console.log(`\n\nUpdated User\n${updatedUser}`)
     return updatedUser;
    }
    catch (err) {

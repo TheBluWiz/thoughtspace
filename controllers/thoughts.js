@@ -59,9 +59,9 @@ module.exports = {
     return thought
   },
   async removeReaction(data) {
-    const thought = Thought.findOneAndUpdate(
-      {_id: data.thoughId},
-      {$pull: {reactions: {reactionId: data.reactionId}}},
+    const thought = await Thought.findOneAndUpdate(
+      { _id: data.thoughtId },
+      { $pull: {reactions: data.reactionId}},
       {runValidators: true, new: true}
     )
     return thought
