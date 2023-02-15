@@ -11,6 +11,12 @@
   This backend includes a package.json for node enviornments. Run 'npm i' from the root folder to install dependencies.
   ## Usage
   The code launches an express server charged with managing a NoSQL server. It allows creation, updating, and deleting users and their thoughts, as well as returning that information to the client.
+  ## Demo
+  
+
+https://user-images.githubusercontent.com/88697112/218911340-241df4a7-c4c9-4b4b-9b30-c44427f52eff.mp4
+
+
   ## Questions
   If you would like to contact me or view other projects I'm working on, you can explore my repositories at [TheBluWiz](https://github.com/TheBluWiz), or email me at thebluwiz@icloud.com.
   ## License
