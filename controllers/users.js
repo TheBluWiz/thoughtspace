@@ -29,7 +29,7 @@ module.exports = {
   },
   async updateUser(data) {
     try {
-      updatedUser = await User.findByIdAndUpdate({_id: data._id}, data, { new: true })
+      const updatedUser = await User.findByIdAndUpdate({_id: data._id}, data, { new: true })
       return updatedUser
     }
     catch (err) {
@@ -59,6 +59,7 @@ module.exports = {
       return err
     }
   },
+  // This isn't working
   async removeFriend(data) {
    try {
     console.log(`\n\nRemoving Friend..\n`)

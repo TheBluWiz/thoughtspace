@@ -1,37 +1,69 @@
-// const User = require('../models/User');
+const { Thought } = require('../models')
 
 module.exports = {
-  getThoughts(data) {
-    return { message: "Here are the thoughts" }
-  },
-  getThought(data) {
-    return { message: "Here is a single thought"}
-  },
-  postThought(data) {
-    return { 
-      status: "User Created",
-      newThought: {
-        username: data.username,
-        thought: data.thought,
-      }
+  async getThoughts(data) {
+    try{
+      return await Thought.find()
+    }
+    catch (err) {
+      console.log(err)
     }
   },
-  updateThought(data) {
-    return { 
-      status: "User Created",
-      newThought: {
-        username: data.username,
-        thought: data.thought,
-      }
+  async getThought(data) {
+    try {
+      return await Thought.findOne({ _id: data})
+    }
+    catch (err) {
+      console.log(err)
     }
   },
-  deleteThought(data) {
-    return { message: "Thought Deleted"}
+  async postThought(data) {
+    try {
+      const newThought = await Thought.create(data)
+      return newThought
+    }
+    catch (err) {
+      console.log(err)
+    }
   },
-  addReaction(data) {
-    return { message: `Reaction added to thought: ${data}`}
+  async updateThought(data) {
+    try {
+      const updatedThought = await Thought.findByIdAndUpdate({_id: data._id}, data, { new: true })
+      return updatedThought
+    }
+    catch (err) {
+      console.log(err)
+    }
   },
-  deleteReaction(data) {
-    return { message: `Reaction deleted from thought: ${data}`}
+  // How?
+  async deleteThought(data) {
+    try {
+      result = await Thought.findByIdAndDelete({_id: data})
+      return result
+    }
+    catch (err) {
+      console.log(err);
+      return err;
+    }
+  },
+  async addReaction(data) {
+    const thoughtData = {
+      reactionBody: data.reactionBody,
+      username: data.username
+    }
+    const thought = Thought.findOneAndUpdate(
+      { _id: data.thoughtId},
+      {$addToSet: {reactions: thoughtData}},
+      {runValidators: true, new: true}
+    )
+    return thought
+  },
+  async removeReaction(data) {
+    const thought = Thought.findOneAndUpdate(
+      {_id: data.thoughId},
+      {$pull: {reactions: {reactionId: data.reactionId}}},
+      {runValidators: true, new: true}
+    )
+    return thought
   },
 };
